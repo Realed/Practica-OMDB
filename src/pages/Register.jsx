@@ -2,7 +2,11 @@ import React, { createRef } from "react"
 import styled, { createGlobalStyle } from "styled-components"
 import fontFamily from "../styles/fontfamily"
 import colors from "../styles/colors"
-import { Link } from "react-router-dom"
+import firebase from "../firebase"
+import GoogleBtn from "../components/GoogleBtn"
+
+//COMPONENTS
+import StyledLink from "../components/StyledLink"
 
 const GlobalStyles = createGlobalStyle`
   body{
@@ -51,27 +55,6 @@ const SignInBox = styled.div`
     display: inline-block;
     margin-right: 20px;
     text-decoration: ${colors.bgColor} underline;
-  }
-`
-
-const StyledLink = styled(Link)`
-  border: none;
-  background-color: ${colors.bgColor};
-  width: 140px;
-  height: 50px;
-  border-radius: 5px;
-  font-size: 1.2em;
-  color: white;
-  font-family: ${fontFamily.accent};
-  cursor: pointer;
-  border: 3px solid ${colors.bgColor};
-  font-weight: bold;
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:focus {
   }
 `
 
@@ -389,7 +372,8 @@ const BrandsFooter = styled.div`
   }
 `
 
-const RegisterPage = () => {
+const RegisterPage = ({ history }) => {
+  document.title = "Register - FlowMovie"
   //REFS
   const form = createRef()
   const emailLabel = createRef()
@@ -405,9 +389,59 @@ const RegisterPage = () => {
   //FUNCTIONS
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    console.log(emailField.current.value)
+    resetStyles()
     fieldsWatchers()
+    if (
+      firstNameField.current.value !== "" &&
+      lastNameField.current.value !== "" &&
+      emailField.current.value !== "" &&
+      passwordField.current.value !== "" &&
+      passwordRepeatField.current.value !== "" &&
+      passwordField.current.value === passwordRepeatField.current.value
+    ) {
+      registerProcess(emailField.current.value, passwordField.current.value)
+    }
   }
+
+  const registerProcess = (email, password) => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .catch(function (error) {
+        let errorMessage = error.message
+        if (
+          errorMessage ===
+          "The email address is already in use by another account."
+        ) {
+          markAsRed(
+            emailLabel.current,
+            emailField.current,
+            null,
+            "The email address is already in use by another account."
+          )
+        } else if (
+          errorMessage === "Password should be at least 6 characters"
+        ) {
+          markAsRed(
+            passwordLabel.current,
+            passwordField.current,
+            passwordRepeatField.current,
+            "Password should be at least 6 characters"
+          )
+        }
+      })
+  }
+
+  const googleRegisterProcess = () => {
+    let provider = new firebase.auth.GoogleAuthProvider()
+    firebase.auth().signInWithPopup(provider)
+  }
+
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      history.replace("/")
+    }
+  })
 
   const fieldsWatchers = () => {
     namesWatcher()
@@ -425,6 +459,26 @@ const RegisterPage = () => {
         firstNameField.current,
         lastNameField.current,
         "Please, fill the names fields"
+      )
+    } else if (
+      firstNameField.current.value === "" &&
+      lastNameField.current.value !== ""
+    ) {
+      markAsRed(
+        emailLabel.current,
+        firstNameField.current,
+        null,
+        "Please, fill the first name field"
+      )
+    } else if (
+      firstNameField.current.value !== "" &&
+      lastNameField.current.value === ""
+    ) {
+      markAsRed(
+        emailLabel.current,
+        null,
+        lastNameField.current,
+        "Please, fill the last name field"
       )
     }
   }
@@ -451,10 +505,44 @@ const RegisterPage = () => {
         passwordRepeatField.current,
         "Please, fill all the password fields"
       )
+    } else if (
+      passwordField.current.value === "" &&
+      passwordRepeatField.current.value !== ""
+    ) {
+      markAsRed(
+        passwordLabel.current,
+        passwordField.current,
+        null,
+        "Please fulfill the password field"
+      )
+    } else if (
+      passwordField.current.value !== "" &&
+      passwordRepeatField.current.value === ""
+    ) {
+      markAsRed(
+        passwordLabel.current,
+        null,
+        passwordRepeatField.current,
+        "Please fulfill the Repeat Password field"
+      )
+    } else if (
+      passwordField.current.value !== passwordRepeatField.current.value
+    ) {
+      markAsRed(
+        passwordLabel.current,
+        passwordField.current,
+        passwordRepeatField.current,
+        "Password must be the same in both fields"
+      )
     }
   }
 
   const resetStyles = (e) => {
+    emailLabel.current.textContent = "*Please enter a valid email"
+    passwordLabel.current.textContent = "*Please enter a valid password"
+    emailLabel.current.style.color = "initial"
+    passwordLabel.current.style.color = "initial"
+
     firstNameField.current.style.border = "1px solid #b9b8b8"
     firstNameField.current.style.boxShadow = "none"
 
@@ -527,13 +615,7 @@ const RegisterPage = () => {
                     <h1>Start Your 14 Days Free Trial</h1>
                   </header>
                   <main>
-                    <div className="register-google">
-                      <img
-                        src="https://vistatec.com/wp-content/uploads/2018/12/google-favicon-vector-400x400.png"
-                        alt="googleimage"
-                      />
-                      <p>Sign Up With Google</p>
-                    </div>
+                    <GoogleBtn onClick={googleRegisterProcess} />
                   </main>
                   <div className="signup-or">
                     <p>or</p>
