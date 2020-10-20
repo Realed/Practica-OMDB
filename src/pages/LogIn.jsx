@@ -7,19 +7,7 @@ import firebase from "../firebase"
 //COMPONENTS
 import StyledLink from "../components/StyledLink"
 import GoogleBtn from "../components/GoogleBtn"
-
-const GlobalStyles = createGlobalStyle`
-  body{
-    margin: 0;
-  }
-  * {
-    font-family: ${fontFamily.main};
-    box-sizing: border-box;
-  }
-  h1{
-    font-weight: 400;
-  }
-`
+import GlobalStyles from "../components/GlobalStyles"
 
 const PageWrapper = styled.div`
   min-height: 100vh;

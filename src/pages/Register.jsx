@@ -7,19 +7,7 @@ import GoogleBtn from "../components/GoogleBtn"
 
 //COMPONENTS
 import StyledLink from "../components/StyledLink"
-
-const GlobalStyles = createGlobalStyle`
-  body{
-    margin: 0;
-  }
-  * {
-    font-family: ${fontFamily.main};
-    box-sizing: border-box;
-  }
-  h1{
-    font-weight: 400;
-  }
-`
+import GlobalStyles from "../components/GlobalStyles"
 
 const PageWrapper = styled.div`
   /* width: 100vw; */
