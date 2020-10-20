@@ -1,5 +1,5 @@
 import React from "react"
-import styled, { createGlobalStyle } from "styled-components"
+import styled from "styled-components"
 import { NavLink } from "react-router-dom"
 
 import fontFamily from "../styles/fontfamily"
@@ -72,7 +72,6 @@ const MenuLink = styled(NavLink)`
 
   &.active {
     color: ${colors.bgColor};
-    text-decoration: ${colors.bgColor} underline;
     font-size: 1.45em;
   }
 

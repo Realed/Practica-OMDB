@@ -1,5 +1,5 @@
 import React, { createRef } from "react"
-import styled, { createGlobalStyle } from "styled-components"
+import styled from "styled-components"
 import fontFamily from "../styles/fontfamily"
 import colors from "../styles/colors"
 import firebase from "../firebase"

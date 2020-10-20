@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import fontFamily from "../styles/fontfamily"
 import colors from "../styles/colors"
 import { Link } from "react-router-dom"

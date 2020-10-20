@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import fontFamily from "../styles/fontfamily"
 
 //COMPONENTS
 import NavMenu from "../components/NavMenu"
@@ -17,6 +16,7 @@ const FormWrapper = styled.div`
 `
 
 const ContactPage = ({ history }) => {
+  document.title = "Contact Us - FLowMovie"
   return (
     <>
       <GlobalStyles />
