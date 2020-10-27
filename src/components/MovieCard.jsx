@@ -12,6 +12,12 @@ const MovieCard = styled.div`
     img {
       max-width: 200px;
       height: 250px;
+      box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.249);
+
+      &:hover {
+        box-sizing: border-box;
+        border: 1px solid gray;
+      }
     }
   }
 `
