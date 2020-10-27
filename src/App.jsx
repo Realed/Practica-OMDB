@@ -11,6 +11,9 @@ import ContactPage from "./pages/ContactUs"
 import MoviePage from "./pages/Movie"
 
 const App = () => {
+  if (localStorage.getItem("movie") === null) {
+    localStorage.setItem("movie", "[]")
+  }
   return (
     <>
       <Router>

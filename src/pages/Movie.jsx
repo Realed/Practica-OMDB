@@ -7,6 +7,7 @@ import colors from "../styles/colors"
 import NavMenu from "../components/NavMenu"
 import GlobalStyles from "../components/GlobalStyles"
 import { useState, useEffect } from "react"
+import { useRef } from "react"
 
 const MovieWrapper = styled.div`
   width: 100%;
@@ -167,6 +168,7 @@ const StyledLabel = styled.label`
 const Movie = ({ match }) => {
   let movieID = match.params.id
   const [movie, setMovie] = useState({})
+  const btnRef = useRef()
 
   const movieRequest = async () => {
     const res = await fetch(
@@ -177,8 +179,51 @@ const Movie = ({ match }) => {
     setMovie(resData)
   }
 
+  let counter = 0
+  const handleAddToFav = () => {
+    let oldData = JSON.parse(localStorage.getItem("movie"))
+    console.log(btnRef.current.textContent)
+
+    if (btnRef.current.textContent === "Add to Favorite") {
+      for (let data of oldData) {
+        if (data === match.params.id) {
+          ++counter
+          console.log(counter)
+        }
+      }
+      if (counter === 0) {
+        oldData.push(match.params.id)
+        localStorage.setItem("movie", JSON.stringify(oldData))
+        btnRef.current.textContent = "Remove favorite"
+      } else {
+        counter = 0
+      }
+      changeTitle()
+      console.log(oldData)
+    } else {
+      for (let index = 0; index < oldData.length; index++) {
+        if (oldData[index] === match.params.id) {
+          oldData.splice(index)
+          localStorage.setItem("movie", JSON.stringify(oldData))
+        }
+      }
+      btnRef.current.innerHTML = `<img src="https://purepng.com/public/uploads/large/purepng.com-red-heartheartoxygen-and-nutrientshumanclipartlove-1421526551807b8c9n.png"alt="heart"/>Add to Favorite`
+    }
+  }
+
+  const changeTitle = () => {
+    console.log(btnRef.current.textContent)
+    let oldData = JSON.parse(localStorage.getItem("movie"))
+    for (let data of oldData) {
+      if (data === match.params.id) {
+        btnRef.current.textContent = "Remove favorite"
+      }
+    }
+  }
+
   useEffect(() => {
     movieRequest()
+    changeTitle()
   }, [])
 
   let splittedGenre = []
@@ -203,10 +248,14 @@ const Movie = ({ match }) => {
                   <span>⭐</span> {movie.imdbRating} / 10 <span>⭐</span>
                 </p>
                 <p className="movie-language">- ( {movie.Language} ) </p>
-                <button className="addto-favorite">
+                <button
+                  className="addto-favorite"
+                  onClick={handleAddToFav}
+                  ref={btnRef}
+                >
                   <img
                     src="https://purepng.com/public/uploads/large/purepng.com-red-heartheartoxygen-and-nutrientshumanclipartlove-1421526551807b8c9n.png"
-                    alt=""
+                    alt="heart"
                   />
                   Add to Favorite
                 </button>
