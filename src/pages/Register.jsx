@@ -603,7 +603,7 @@ const RegisterPage = ({ history }) => {
                     <h1>Start Your 14 Days Free Trial</h1>
                   </header>
                   <main>
-                    <GoogleBtn onClick={googleRegisterProcess} />
+                    <GoogleBtn handleLogIn={googleRegisterProcess} />
                   </main>
                   <div className="signup-or">
                     <p>or</p>
