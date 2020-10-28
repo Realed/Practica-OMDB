@@ -9,6 +9,7 @@ import HomePage from "./pages/Home"
 import MoviesPage from "./pages/Movies"
 import ContactPage from "./pages/ContactUs"
 import MoviePage from "./pages/Movie"
+import LogOutPage from "./pages/LogOut"
 
 const App = () => {
   if (localStorage.getItem("movie") === null) {
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/register" component={RegisterPage} />
         <Route path="/login" component={SignInPage} />
         <Route path="/movies/:id" component={MoviePage} />
+        <Route path="/logout" component={LogOutPage} />
       </Router>
     </>
   )
