@@ -54,7 +54,7 @@ const MoviesPage = ({ history }) => {
   const handleRequests = async () => {
     for (let movieID of moviesID) {
       const res = await fetch(
-        `http://www.omdbapi.com/?apikey=2192856f&i=${movieID}`
+        `https://www.omdbapi.com/?apikey=2192856f&i=${movieID}`
       )
       const data = await res.json()
       movies.push(data)

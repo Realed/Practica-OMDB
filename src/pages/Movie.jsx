@@ -172,7 +172,7 @@ const Movie = ({ match }) => {
 
   const movieRequest = async () => {
     const res = await fetch(
-      `http://www.omdbapi.com/?apikey=2192856f&i=${movieID}`
+      `https://www.omdbapi.com/?apikey=2192856f&i=${movieID}`
     )
     let resData = await res.json()
     console.log(resData)

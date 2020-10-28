@@ -104,7 +104,7 @@ const HomePage = ({ history }) => {
 
     if (inputText !== "") {
       const res = await fetch(
-        `http://www.omdbapi.com/?apikey=2192856f&s=${inputText}`
+        `https://www.omdbapi.com/?apikey=2192856f&s=${inputText}`
       )
       const data = await res.json()
       let dataSearch = data.Search
