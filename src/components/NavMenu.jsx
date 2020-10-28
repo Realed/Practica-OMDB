@@ -3,8 +3,8 @@ import styled from "styled-components"
 import { NavLink } from "react-router-dom"
 
 import fontFamily from "../styles/fontfamily"
+import firebase from "../firebase"
 import colors from "../styles/colors"
-import StyledLink from "./StyledLink"
 
 //COMPONENTS
 import GlobalStyles from "./GlobalStyles"
@@ -45,11 +45,26 @@ const MenuWrapper = styled.div`
     }
 
     .register-btn {
-      width: 25%;
+      width: 20%;
       height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
+
+      a {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      img {
+        margin-right: 20px;
+        max-width: 65%;
+        max-height: 60%;
+      }
     }
   }
 `
@@ -81,6 +96,18 @@ const MenuLink = styled(NavLink)`
 `
 
 const NavMenu = () => {
+  const handleLogOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        // Sign-out successful.
+      })
+      .catch(function (error) {
+        // An error happened.
+      })
+  }
+
   return (
     <>
       <GlobalStyles />
@@ -90,14 +117,26 @@ const NavMenu = () => {
             <img src="https://i.imgur.com/gre6uLf.png" alt="logo" />
           </div>
           <Menu className="menu">
-            <MenuLink to="/home">HOME</MenuLink>
-            <MenuLink to="/movies">MOVIES</MenuLink>
-            <MenuLink to="contactus">CONTACT US</MenuLink>
+            <MenuLink exact to="/home">
+              HOME
+            </MenuLink>
+            <MenuLink exact to="/movies">
+              MOVIES
+            </MenuLink>
+            <MenuLink exact to="/contactus">
+              CONTACT US
+            </MenuLink>
           </Menu>
           <div className="register-btn">
-            <StyledLink width="127px" height="35px" size="1em" to="/register">
+            {/* <StyledLink width="127px" height="35px" size="1em" to="/register">
               Upgrade PRO
-            </StyledLink>
+            </StyledLink> */}
+            <NavLink exact to="/logout" onClick={handleLogOut}>
+              <img
+                src="https://lh3.googleusercontent.com/proxy/EKIf7aWgZvajkC1rYppObF8varkDR1vSJnA8kBvZW0T15_LI-EsSpMA7qvWwbNpnNpX1v6Jpsejo6YOPOWr6WqgcLQmo6KGI7aOZXDa6xJlcsUXUzg7FDPiyXCRf"
+                alt=""
+              />
+            </NavLink>
           </div>
         </div>
       </MenuWrapper>
