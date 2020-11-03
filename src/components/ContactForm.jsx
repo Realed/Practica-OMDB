@@ -246,7 +246,10 @@ const ContactForm = () => {
     <>
       <GlobalStyles />
       <ContactBox>
-        <form action="">
+        <form
+          action="https://formsubmit.co/danielgonzalezt13@gmail.com"
+          method="POST"
+        >
           <header>
             <h1>Contact Us</h1>
             <p>
@@ -255,14 +258,19 @@ const ContactForm = () => {
             </p>
           </header>
           <div className="name__tlf-box">
-            <input type="text" placeholder="Enter Your Name" />
-            <input type="text" placeholder="Enter your tlf" />
+            <input type="text" placeholder="Enter Your Name" name="name" />
+            <input type="text" placeholder="Enter your tlf" name="tlf" />
           </div>
           <div className="email-box">
-            <input type="email" name="" id="" placeholder="Enter your Email" />
+            <input
+              type="email"
+              name="email"
+              id=""
+              placeholder="Enter your Email"
+            />
           </div>
           <div className="message-box">
-            <textarea name="" id=""></textarea>
+            <textarea name="message" id=""></textarea>
           </div>
           <div className="submit-box">
             <input type="submit" value="SEND MESSAGE" />
